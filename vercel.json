@@ -1,5 +1,12 @@
 {
   "buildCommand": "sh build.sh",
   "outputDirectory": "public",
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/ar",
+      "destination": "/index-ar",
+      "permanent": false
+    }
+  ]
 }

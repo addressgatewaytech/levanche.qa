@@ -22,4 +22,5 @@ dl p6 1JaI62AhU98RDgyGaPcRWXPr_0VAV1YS2
 dl p7 1o0eBCdCww5qpy76GBh_xjHzmyjsvsDSS
 dl p8 19Sm2JrRviWkLl1BM54lDZve4XWBsL5LT
 dl p9 1Rj3wxeSvGNioTtNcp849C0Byf-knB_LO
-ls -la public/img
+node make-ar.js . public   # Arabic (RTL) pages: index-ar, terms-ar, refund-ar, privacy-ar
+ls -la public public/img

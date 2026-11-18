@@ -14,11 +14,29 @@ window.LEVANCHE = {
 };
 (function(){
   const L = window.LEVANCHE;
+  const AR = document.documentElement.lang === 'ar';
+  const AR_VALUES = { address: 'الدوحة، دولة قطر' };
   document.querySelectorAll('[data-info]').forEach(el => {
-    const v = L[el.dataset.info];
+    const k = el.dataset.info;
+    const v = (AR && AR_VALUES[k]) || L[k];
     if (v) { el.textContent = v; }
-    else { el.textContent = 'To be added'; el.classList.add('missing'); }
+    else { el.textContent = AR ? 'سيتم الإضافة قريباً' : 'To be added'; el.classList.add('missing'); }
   });
+
+  // ---- Language switch (English <-> Arabic) ----
+  let p = location.pathname.replace(/\.html$/, '');
+  if (p === '/' || p === '') p = '/index';
+  let target = AR ? p.replace(/-ar$/, '') : p + '-ar';
+  if (target === '/index') target = '/';
+  const nav = document.querySelector('header .nav');
+  if (nav) {
+    const a = document.createElement('a');
+    a.className = 'lang-switch';
+    a.href = target + location.hash;
+    a.textContent = AR ? 'English' : 'العربية';
+    a.lang = AR ? 'en' : 'ar';
+    nav.insertBefore(a, nav.lastElementChild);
+  }
 
   // ---- Social media links (footer on every page + contact section on home) ----
   const ICONS = {
@@ -47,12 +65,15 @@ window.LEVANCHE = {
       box-shadow:inset 0 0 0 2px #0f0b07,inset 0 0 0 3px #b48a45;transition:.3s}
     .soc svg{width:19px;height:19px}
     .soc:hover{color:#fff3cf;transform:translateY(-2px);box-shadow:inset 0 0 0 2px #0f0b07,inset 0 0 0 3px #e9cf93}
+    .lang-switch{font-family:'Tajawal','Jost',sans-serif;font-size:14px;font-weight:500;border:1px solid #b48a45;border-radius:30px;padding:7px 18px;color:#5b4126;white-space:nowrap;margin-inline-end:16px;transition:.25s}
+    .lang-switch:hover{background:#17110c;color:#f0d796;border-color:#17110c}
+    @media(max-width:520px){.lang-switch{padding:5px 12px;font-size:13px;margin-inline-end:10px}}
     .follow-label{font-family:'Cinzel',serif;color:#f0d796;font-size:12px;letter-spacing:.14em;margin:18px 0 0}`;
   document.head.appendChild(css);
 
   // Footer (all pages): under the brand / CR block
   document.querySelectorAll('.foot > div:first-child').forEach(col => {
-    col.insertAdjacentHTML('beforeend', '<div class="follow-label">FOLLOW US</div><div class="socials">' + html + '</div>');
+    col.insertAdjacentHTML('beforeend', '<div class="follow-label">' + (AR ? 'تابعونا' : 'FOLLOW US') + '</div><div class="socials">' + html + '</div>');
   });
   // Home page contact section
   const contact = document.querySelector('#contact .wrap');
